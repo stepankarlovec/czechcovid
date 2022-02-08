@@ -150,11 +150,6 @@ export default function App() {
             title="Včerejší případy:"
             value={fetchedData[0].potvrzene_pripady_vcerejsi_den.toLocaleString()}
           ></InfoBox>
-          <InfoBox
-            graph={false}
-            title="Vyléčení:"
-            value={fetchedData[0].vyleceni}
-          ></InfoBox>
         </View>
       </View>
     );
