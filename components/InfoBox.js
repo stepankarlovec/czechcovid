@@ -5,9 +5,20 @@ const InfoBox = (props) => {
   if (props.graph) {
     return <View></View>;
   }
+  if(props.image){
+    const myImage = require(props.image);
+  }else{
+    myImage = require("./images/icon_death.png");
+  }
   return (
     <View style={styles.dataBox}>
+      <View>
+          <Image
+            style={styles.logoImage}
+            source={require(myImage)}
+          ></Image>
       <Text style={styles.white}>{props.title}</Text>
+      </View>
       <Text style={styles.white}>{props.value}</Text>
     </View>
   );

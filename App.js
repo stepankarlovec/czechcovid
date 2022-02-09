@@ -40,7 +40,7 @@ export default function App() {
     Notifications.scheduleNotificationAsync({
       content: {
         title: "ČeskýCovid",
-        body: `Aktuálně nakažených: ${fetchedData[0].aktivni_pripady}`,
+        body: `Podívej se na dnešní statistiky 🦠!`,
       },
       trigger: {
         hour: 20,
@@ -119,6 +119,7 @@ export default function App() {
             graph={false}
             title="Aktivní případy:"
             value={fetchedData[0].aktivni_pripady.toLocaleString()}
+            image="./images/icon_today.png"
           ></InfoBox>
           <InfoBox
             graph={false}
