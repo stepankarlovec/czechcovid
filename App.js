@@ -1,26 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, StatusBar, Image, Button } from "react-native";
+import { StyleSheet, Text, View, StatusBar, Image, Button, ScrollView, TouchableHighlight } from "react-native";
 import InfoBox from "./components/InfoBox";
 import * as Notifications from "expo-notifications";
 
 export default function App() {
   const [fetchedData, setFetchedData] = useState();
-  const [expoPushToken, setExpoPushToken] = useState(true);
+  const [expoPushToken, setExpoPushToken] = useState(false);
   const [showLoading, setShowLoading] = useState(true);
+  const [ringBellImage, setRingBellImage] = useState(require("./images/icon_ringbell_empty.png"));
+  const [notifAllowed, setNotifAllowed] = useState(false);
 
-  useEffect(() => {
+  const turnOnNotifications = () => {
+    if(expoPushToken!=true && notifAllowed==false){
+      getToken();
+      if(expoPushToken!=true){
+        setRingBellImage(require("./images/icon_ringbell_green.png"));
+        setNotifAllowed(true);
+      }else{
+        setNotifAllowed(false);
+        setRingBellImage(require("./images/icon_ringbell_empty.png"));
+      }
+    }else{
+      setExpoPushToken(false);
+      setNotifAllowed(false);
+      setRingBellImage(require("./images/icon_ringbell_empty.png"));
+    }
+  }
+
+  const getToken = () => {
     registerForPushNotification()
-      .then((token) => setExpoPushToken(token))
-      .catch((err) => console.warn(err));
-  });
+    .then((token) => setExpoPushToken(token))
+    .catch((err) => console.warn(err));
+  }
 
   // PUSH NOTIFICATIONS
   async function registerForPushNotification() {
-    const { status } = await Notifications.getPermissionsAsync();
-    if (status != "granted") {
+    let token;
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus != "granted") {
       const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
     }
-    if (status != "granted") {
+    if (finalStatus != "granted") {
       alert("failed to get the push perm");
       return;
     }
@@ -36,7 +58,7 @@ export default function App() {
     }),
   });
 
-  if (!showLoading) {
+  if (!showLoading && notifAllowed) {
     Notifications.scheduleNotificationAsync({
       content: {
         title: "ČeskýCovid",
@@ -100,6 +122,7 @@ export default function App() {
   useEffect(() => {
     getData();
   }, []);
+
   if (showLoading) {
     return (
       <View style={styles.container}>
@@ -109,6 +132,7 @@ export default function App() {
   } else {
     return (
       <View style={styles.container}>
+        <ScrollView>
         <StatusBar barStyle="light-content" animated={true} />
         <View style={styles.content}>
           <Image
@@ -117,41 +141,63 @@ export default function App() {
           ></Image>
           <InfoBox
             graph={false}
+            title="Případů za den:"
+            value={fetchedData[0].potvrzene_pripady_vcerejsi_den.toLocaleString()}
+            image={require("./images/icon_yesterday.png")}
+            textSize="regular"
+          ></InfoBox>
+          <InfoBox
+            graph={false}
             title="Aktivní případy:"
             value={fetchedData[0].aktivni_pripady.toLocaleString()}
-            image="./images/icon_today.png"
+            image={require("./images/icon_today.png")}
+            textSize="regular"
           ></InfoBox>
           <InfoBox
             graph={false}
             title="Aktuálně hospitalizováni:"
             value={fetchedData[0].aktualne_hospitalizovani.toLocaleString()}
+            image={require("./images/icon_hospitalised.png")}
+            textSize="smaller"
           ></InfoBox>
           <InfoBox
             graph={false}
             title="Vyléčení:"
             value={fetchedData[0].vyleceni.toLocaleString()}
+            image={require("./images/icon_health.png")}
+            textSize="regular"
           ></InfoBox>
           <InfoBox
             graph={false}
             title="Úmrtí:"
             value={fetchedData[0].umrti.toLocaleString()}
+            image={require("./images/icon_death.png")}
+            textSize="regular"
           ></InfoBox>
           <InfoBox
             graph={false}
             title="Počet očkovaných:"
             value={fetchedData[0].ockovane_osoby_celkem.toLocaleString()}
+            image={require("./images/icon_vaccine.png")}
+            textSize="smaller"
           ></InfoBox>
           <InfoBox
             graph={false}
             title="Celkem případů:"
             value={fetchedData[0].potvrzene_pripady_celkem.toLocaleString()}
+            image={require("./images/icon_today.png")}
+            textSize="smaller"
           ></InfoBox>
-          <InfoBox
-            graph={false}
-            title="Včerejší případy:"
-            value={fetchedData[0].potvrzene_pripady_vcerejsi_den.toLocaleString()}
-          ></InfoBox>
+          <View style={styles.ringFlex}>
+            <TouchableHighlight onPress={turnOnNotifications}>
+              <Image
+                style={styles.ringBell}
+                source={ringBellImage}
+              ></Image>
+              </TouchableHighlight>
+          </View>
         </View>
+        </ScrollView>
       </View>
     );
   }
@@ -176,4 +222,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginBottom: 15,
   },
+  ringFlex:{
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ringBell: {
+    resizeMode: "contain",
+    marginBottom: 15,
+    width: 60,
+  }
 });

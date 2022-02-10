@@ -1,23 +1,24 @@
-import { View, Text, StyleSheet } from "react-native";
-import { PieChart } from "react-native-gifted-charts";
+import { View, Text, StyleSheet, Image } from "react-native";
 
 const InfoBox = (props) => {
   if (props.graph) {
     return <View></View>;
   }
-  if(props.image){
-    const myImage = require(props.image);
+  //const myImage = require(`${props.image}`) | require("./images/icon_death.png");
+  let textSize = "";
+  if(props.textSize=="smaller"){
+    textSize = styles.smaller;
   }else{
-    myImage = require("./images/icon_death.png");
+    textSize = styles.white;
   }
   return (
     <View style={styles.dataBox}>
-      <View>
+      <View style={styles.imageAndText}>
           <Image
             style={styles.logoImage}
-            source={require(myImage)}
+            source={props.image}
           ></Image>
-      <Text style={styles.white}>{props.title}</Text>
+      <Text style={textSize}>{props.title}</Text>
       </View>
       <Text style={styles.white}>{props.value}</Text>
     </View>
@@ -34,13 +35,28 @@ const styles = StyleSheet.create({
     padding: 8,
     borderColor: "white",
     backgroundColor: "#292929",
-    borderRadius: 8,
+    borderRadius: 16,
     marginBottom: 10,
+    alignItems: "center",
   },
   white: {
     color: "white",
     fontSize: 20,
   },
+  imageAndText: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  logoImage: {
+    width: 34,
+    height: 34,
+    marginRight: 8,
+  },
+  smaller: {
+      color: "white",
+      fontSize: 16,
+  }
 });
 
 export default InfoBox;
