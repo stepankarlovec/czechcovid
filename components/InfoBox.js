@@ -28,34 +28,38 @@ const InfoBox = (props) => {
 const styles = StyleSheet.create({
   dataBox: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
-    width: "100%",
+    width: "48%",
+    height: 150,
     borderWidth: 0.3,
     padding: 8,
     borderColor: "white",
     backgroundColor: "#292929",
     borderRadius: 16,
-    marginBottom: 10,
     alignItems: "center",
   },
   white: {
     color: "white",
     fontSize: 20,
+    textAlign: "center",
+    padding: 8,
   },
   imageAndText: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
+    flexWrap: "wrap",
   },
   logoImage: {
+    marginBottom: 1,
     width: 34,
     height: 34,
-    marginRight: 8,
   },
   smaller: {
       color: "white",
       fontSize: 16,
+      textAlign: "center",
   }
 });
 

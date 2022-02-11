@@ -139,55 +139,63 @@ export default function App() {
             style={styles.logoImage}
             source={require("./images/ceskycovid.png")}
           ></Image>
-          <InfoBox
-            graph={false}
-            title="Případů za den:"
-            value={fetchedData[0].potvrzene_pripady_vcerejsi_den.toLocaleString()}
-            image={require("./images/icon_yesterday.png")}
-            textSize="regular"
-          ></InfoBox>
-          <InfoBox
-            graph={false}
-            title="Aktivní případy:"
-            value={fetchedData[0].aktivni_pripady.toLocaleString()}
-            image={require("./images/icon_today.png")}
-            textSize="regular"
-          ></InfoBox>
-          <InfoBox
-            graph={false}
-            title="Aktuálně hospitalizováni:"
-            value={fetchedData[0].aktualne_hospitalizovani.toLocaleString()}
-            image={require("./images/icon_hospitalised.png")}
-            textSize="smaller"
-          ></InfoBox>
-          <InfoBox
-            graph={false}
-            title="Vyléčení:"
-            value={fetchedData[0].vyleceni.toLocaleString()}
-            image={require("./images/icon_health.png")}
-            textSize="regular"
-          ></InfoBox>
-          <InfoBox
-            graph={false}
-            title="Úmrtí:"
-            value={fetchedData[0].umrti.toLocaleString()}
-            image={require("./images/icon_death.png")}
-            textSize="regular"
-          ></InfoBox>
-          <InfoBox
-            graph={false}
-            title="Počet očkovaných:"
-            value={fetchedData[0].ockovane_osoby_celkem.toLocaleString()}
-            image={require("./images/icon_vaccine.png")}
-            textSize="smaller"
-          ></InfoBox>
-          <InfoBox
-            graph={false}
-            title="Celkem případů:"
-            value={fetchedData[0].potvrzene_pripady_celkem.toLocaleString()}
-            image={require("./images/icon_today.png")}
-            textSize="smaller"
-          ></InfoBox>
+          <View style={styles.twoBoxContainer}>
+              <InfoBox
+                graph={false}
+                title="Případů za den:"
+                value={fetchedData[0].potvrzene_pripady_vcerejsi_den.toLocaleString()}
+                image={require("./images/icon_yesterday.png")}
+                textSize="regular"
+              ></InfoBox>
+              <InfoBox
+                graph={false}
+                title="Aktivní případy:"
+                value={fetchedData[0].aktivni_pripady.toLocaleString()}
+                image={require("./images/icon_today.png")}
+                textSize="regular"
+              ></InfoBox>
+          </View>
+          <View style={styles.twoBoxContainer}>
+              <InfoBox
+                graph={false}
+                title="Aktuálně hospitalizováni:"
+                value={fetchedData[0].aktualne_hospitalizovani.toLocaleString()}
+                image={require("./images/icon_hospitalised.png")}
+                textSize="smaller"
+              ></InfoBox>
+              <InfoBox
+                graph={false}
+                title="Vyléčení:"
+                value={fetchedData[0].vyleceni.toLocaleString()}
+                image={require("./images/icon_health.png")}
+                textSize="regular"
+              ></InfoBox>
+          </View>
+          <View style={styles.twoBoxContainer}>
+              <InfoBox
+                graph={false}
+                title="Úmrtí:"
+                value={fetchedData[0].umrti.toLocaleString()}
+                image={require("./images/icon_death.png")}
+                textSize="regular"
+              ></InfoBox>
+              <InfoBox
+                graph={false}
+                title="Počet očkovaných:"
+                value={fetchedData[0].ockovane_osoby_celkem.toLocaleString()}
+                image={require("./images/icon_vaccine.png")}
+                textSize="smaller"
+              ></InfoBox>
+          </View>
+          <View style={styles.twoBoxContainer}>
+              <InfoBox
+                graph={false}
+                title="Celkem případů:"
+                value={fetchedData[0].potvrzene_pripady_celkem.toLocaleString()}
+                image={require("./images/icon_today.png")}
+                textSize="smaller"
+              ></InfoBox>
+          </View>
           <View style={styles.ringFlex}>
             <TouchableHighlight onPress={turnOnNotifications}>
               <Image
@@ -230,5 +238,13 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginBottom: 15,
     width: 60,
+  },
+  twoBoxContainer: {
+    alignSelf: "center",
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 16,
   }
 });
