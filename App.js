@@ -75,7 +75,7 @@ export default function App() {
   const getData = async () => {
     try {
       const response = await fetch(
-        "https://onemocneni-aktualne.mzcr.cz/api/v3/zakladni-prehled?page=1&itemsPerPage=100&apiToken=642ae5d03f00dad4e9dc44d811d9afda",
+        "https://onemocneni-aktualne.mzcr.cz/api/v3/zakladni-prehled?page=1&itemsPerPage=100&apiToken=???",
         { headers: { accept: "application/json" } }
       );
       const json = await response.json();
